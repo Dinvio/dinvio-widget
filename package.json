@@ -1,0 +1,24 @@
+{
+  "name": "dinvio-widget",
+  "version": "15.7.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinvio/dinvio-widget.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dinvio/dinvio-widget/issues"
+  },
+  "homepage": "https://github.com/dinvio/dinvio-widget#readme",
+  "private": true,
+  "devDependencies": {
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.10.1"
+  }
+}
