@@ -1,0 +1,36 @@
+
+.DinvioWidgetDestination
+    position relative
+    display none
+    font-weight 300
+    font-size 14px
+    line-height 20px
+    margin 12px 16px
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+
+    &--show
+        display block
+
+    &-city
+        font-weight 500
+
+    &-address
+        display none
+        font-weight 500
+        &:before
+            content: ', по адресу '
+            font-weight 300
+
+    &--hasAddress &-address
+        display inline
+
+    &-point
+        display none
+        font-weight 300
+        &:before
+            content: ', '
+
+    &--hasPoint &-point
+        display inline

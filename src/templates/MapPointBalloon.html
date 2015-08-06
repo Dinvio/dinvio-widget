@@ -1,0 +1,32 @@
+<div class="DinvioWidgetMapPointBalloon">
+    <div class="DinvioWidgetMapPointBalloon-logo" style="background-image: url({{ properties.company.logo }})"></div>
+    <div class="DinvioWidgetMapPointBalloon-type">
+        {% if properties.point.type == 'postomat' %}Постамат{% else %}Пункт выдачи заказов{% endif %}
+    </div>
+    <div class="DinvioWidgetMapPointBalloon-address">{{ properties.point.address }}</div>
+    {% if properties.point.metro %}
+        <div class="DinvioWidgetMapPointBalloon-metro">{{ properties.point.metro }}</div>
+    {% endif %}
+    {% if properties.point.description %}
+        <div class="DinvioWidgetMapPointBalloon-description">
+            {{ properties.point.description }}
+        </div>
+    {% endif %}
+    <div class="DinvioWidgetMapPointBalloon-props">
+        <div class="DinvioWidgetMapPointBalloon-prop">Оплата наличными</div>
+        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.can_cod_cash %}да{% else %}нет{% endif %}</div>
+        <div class="DinvioWidgetMapPointBalloon-prop">Оплата банковской картой</div>
+        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.can_cod_card %}да{% else %}нет{% endif %}</div>
+        {% if properties.point.working_time %}
+            <div class="DinvioWidgetMapPointBalloon-prop">Часы работы</div>
+            <div class="DinvioWidgetMapPointBalloon-value">{{ properties.point.working_time }}</div>
+        {% endif %}
+        {% if properties.point.phones %}
+            <div class="DinvioWidgetMapPointBalloon-prop">Телефоны</div>
+            <div class="DinvioWidgetMapPointBalloon-value">{{ properties.point.phones }}</div>
+        {% endif %}
+    </div>
+    <div class="DinvioWidgetMapPointBalloon-controls">
+        <div class="DinvioWidgetMapPointBalloon-selectButton" data-action="select">Выбрать</div>
+    </div>
+</div>

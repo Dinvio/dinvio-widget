@@ -1,0 +1,79 @@
+.DinvioWidgetVariant
+    display none
+    font-size 14px
+    cursor pointer
+    transition background 0.15s ease-in-out
+
+    &--show
+        display table-row
+
+    &:hover
+        background #f6f6f6;
+
+    &-check
+        display table-cell
+        text-align center
+        width 30px
+        vertical-align middle
+        padding 6px 16px
+        white-space nowrap
+        &:before
+            content ' '
+            display inline-block
+            overflow hidden
+            vertical-align middle
+            background #fff
+            font-size 1px
+            width 12px
+            height 12px
+            border-radius 6px
+            box-shadow inset 0 1px 4px 0 rgba(0, 0, 0, 0.25)
+
+        &:after
+            content: ' '
+            display inline-block
+            vertical-align middle
+            overflow hidden
+            margin 0 3px 0 -9px
+            width 6px
+            height 6px
+            border-radius 3px
+            background #1e9fc4
+            opacity 0
+            transition opacity 0.2s ease-in-out
+
+    &--selected &-check:after
+            opacity 1
+
+    &-logo
+        display table-cell
+        text-align center
+        width 50px
+        vertical-align middle
+        padding 6px 24px 6px 8px
+
+    &-logoImg
+        width 50px
+        height 30px
+        background-size contain
+        background-position 50% 50%
+        background-repeat no-repeat
+
+    &-name
+        display table-cell
+        vertical-align middle
+        padding 6px 16px 6px 0
+        width 80%
+
+    &-cost
+        display table-cell
+        vertical-align middle
+        white-space nowrap
+        padding 6px 16px 6px 0
+        text-align right
+
+    &-eta
+        display table-cell
+        vertical-align middle
+        white-space nowrap
+        padding 6px 16px

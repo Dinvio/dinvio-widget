@@ -1,0 +1,84 @@
+.DinvioWidgetMapPointBalloon
+    font-size 14px
+    font-family 'Roboto', sans-serif
+    line-height 1.25em
+    color #333
+
+    &-logo
+        float left
+        width 50px
+        height 30px
+        margin-right -50px
+        background-size contain
+        background-position 50% 50%
+        background-repeat no-repeat
+
+    &-type
+        font-weight 500
+        font-size 16px
+        line-height 30px
+        margin-left 66px
+
+    &-address
+        clear left
+        padding-top 6px
+        font-weight 300
+        font-size 14px
+
+    &-metro
+        font-size 12px
+        font-weight 500
+        margin-top 6px
+        color #666
+
+        &:before
+            font-weight 300
+            content: 'метро: '
+
+    &-description
+        position relative
+        font-weight 300
+        font-size 12px
+        color #666
+        margin-top 6px
+        max-height 30px
+        overflow auto
+
+    &-props
+        margin 12px 0
+
+    &-prop
+        clear both
+        float left
+        font-size 12px
+        font-weight 300
+        padding 3px 0
+        white-space nowrap
+
+    &-value
+        position relative
+        top -1px
+        padding 3px 0
+        font-size 14px
+        font-weight 400
+        text-align right
+        border-bottom 1px dotted #aaa
+
+    &-controls
+        margin 12px 0
+        text-align center
+
+    &-selectButton
+        display inline-block
+        border-radius 3px
+        background-color #1e9fc4
+        box-shadow 0 1px 4px 0 rgba(0, 0, 0, 0.25)
+        color #fff
+        font-size 14px
+        font-weight 300
+        padding 6px 24px
+        text-align center
+        transition box-shadow 0.3s linear
+        cursor pointer
+        &:hover
+            box-shadow rgba(0, 0, 0, 0.3) 0 4px 4px 0

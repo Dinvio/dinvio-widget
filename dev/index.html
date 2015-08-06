@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="/bundle.js"></script>
+</head>
+<body>
+    <p>
+        <label>
+            Адрес:
+            <input type="text" name="address" size="50" id="addressInput" value="Челябинск, Ленина 54">
+        </label>
+    </p>
+    <p>
+        <button onClick="demoWidget.setDestination(document.getElementById('addressInput').value)">Выбрать способ доставки</button>
+    </p>
+    <div id="widgetPlace" style="width: 600px"></div>
+    <script>
+        var demoWidget = new DinvioWidget('widgetPlace', {
+            publicKey: '1d33aa4b-8cf3-4d3d-b40e-16006f4c2433'
+        });
+        demoWidget.on('select', function() {
+            console.log(demoWidget.getSelectedVariant());
+        });
+        demoWidget.setParcelData([
+            {
+                weight: 8,
+                width: 20,
+                height: 50,
+                length: 30
+            }
+        ], 1000);
+    </script>
+</body>
+</html>

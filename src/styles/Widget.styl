@@ -1,0 +1,41 @@
+.DinvioWidget
+    position relative
+    overflow hidden
+    display none
+    box-sizing border-box
+    font-family 'Roboto', sans-serif
+    font-size 10px
+    line-height 1.25em
+    color #333
+    background #fff
+    border-radius 1px
+    box-shadow 0 1px 4px 0 rgba(0, 0, 0, 0.25)
+    min-height 55px
+
+    &:before
+        content ''
+        position absolute
+        right 16px
+        top 10px
+        width 100px
+        height 50px
+        background url(../assets/logo.png) 100% 0 no-repeat
+        background-size contain
+        opacity .25
+
+
+    &--show
+        display: block
+
+    &-variants
+        display table
+        width 100%
+        margin 12px 0
+        table-layout auto
+
+    &-pointsMap
+        display none
+        height 360px
+
+        &--show
+            display block
