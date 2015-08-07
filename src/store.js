@@ -95,12 +95,9 @@ Store.prototype.getPoints = function(company) {
     return this._state.points;
 };
 
-Store.prototype.getSelectedVariant = function(validate) {
+Store.prototype.getSelectedVariant = function(copy) {
     var variant = this._state.selected;
-    if (validate && variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && variant['delivery_type']) {
-        return null;
-    }
-    return (validate && variant) ? _.assign({}, variant) : variant;
+    return (copy && variant) ? _.assign({}, variant) : variant;
 };
 
 Store.prototype.isVariantEquals = function(v1, v2) {
