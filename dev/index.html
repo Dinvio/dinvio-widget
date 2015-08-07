@@ -20,7 +20,7 @@
             publicKey: '1d33aa4b-8cf3-4d3d-b40e-16006f4c2433'
         });
         demoWidget.on('select', function() {
-            console.log(demoWidget.getSelectedVariant());
+            console.log(demoWidget.getRequestId(), demoWidget.getSelectedVariant());
         });
         demoWidget.setParcelData([
             {

@@ -37,8 +37,8 @@ function DinvioWidget(element, settings) {
     this.destination = undefined;
 
     this.store = new Store(settings);
-    this.store.on('variant-select', function(variant) {
-        this.emit('select', variant);
+    this.store.on('variant-select', function() {
+        this.emit('select');
     }, this);
 
     var widgetComponent = new DinvioWidgetComponent.create(this.store);
@@ -94,12 +94,15 @@ DinvioWidget.prototype.calc = function() {
 };
 
 DinvioWidget.prototype.getSelectedVariant = function() {
-    var variant = this.store.getSelectedVariant(true);
-    return variant;
+    return this.store.getSelectedVariant(true);
 };
 
-DinvioWidget.prototype.getCompanyInfo = function(companyName) {
-    return this.store.getCompany(companyName);
+DinvioWidget.prototype.getRequestId = function() {
+    return this.store.getRequestId();
+};
+
+DinvioWidget.prototype.getCompanyInfo = function(company) {
+    return this.store.getCompany(company);
 };
 
 _.extend(DinvioWidget.prototype, EventEmitter.prototype);

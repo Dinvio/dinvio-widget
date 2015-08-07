@@ -68,6 +68,10 @@ Store.prototype.unbind = function() {
     delete this._dispatchToken;
 };
 
+Store.prototype.getRequestId = function() {
+    return this._state.requestId;
+};
+
 Store.prototype.getDestination = function() {
     return this._state.destination;
 };
@@ -96,7 +100,7 @@ Store.prototype.getSelectedVariant = function(validate) {
     if (validate && variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && variant['delivery_type']) {
         return null;
     }
-    return variant;
+    return (validate && variant) ? _.assign({}, variant) : variant;
 };
 
 Store.prototype.isVariantEquals = function(v1, v2) {
@@ -135,6 +139,7 @@ function calculate(store) {
         }
     }
     function handler(result) {
+        store._state.requestId = result.requestId;
         store.emit('calculate-progress', result.isReady, result.progress);
         var updates = parseResult(store, result);
         if (updates) {
