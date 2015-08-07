@@ -1,5 +1,4 @@
-# dinvio-widget
-Dinvio E-commerce Basket Widget
+# Dinvio Виджет для корзины
 
 ## Требования
 Для установки виджета не требуется никаких дополнительных библиотек.
@@ -19,6 +18,7 @@ var widget = new DinvioWidget(widgetPlace, {
 
 
 ## Методы
+### Данные отправления
 ```js
 widget.setParcelData(packages, totalCost)
 ```
@@ -36,3 +36,30 @@ widget.setParcelData(packages, totalCost)
 ]
 ```
 `totalCost` — объявленная стоимость отправления в рублях
+
+### Адрес получателя
+```js
+widget.setDestination(destination)
+```
+Сообщает виджету адрес получения
+`destination` — полный адрес получения посылки в свободной форме (например: "Москва серебряническая набережная 29"
+
+
+### Расчет стоиомсти
+```js
+widget.calc()
+```
+Запускает процесс расчета стоимости.
+Этот метод будет вызван автоматически при вызове `widget.setDestination(...)` или `widget.setParcelData(...)`
+
+### Получение иформации о выбранном варианте доставки
+`widget.getSelectedVariant()` — получить данные по выбранному способу доставки
+`widget.getRequestId()` — получить requestId для данного расчета. Для последующей регистрации заказа по API
+
+## События
+`select` — вызывается, при выборе варианта доставки
+```js
+widget.on('select', function() {
+    console.log(widget.getSelectedVariant());
+});
+```
