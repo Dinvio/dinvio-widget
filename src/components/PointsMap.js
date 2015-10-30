@@ -38,7 +38,7 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
          * @constructs
          */
         bind: function() {
-            this.company = null;
+            this.service = null;
             this.points = [];
             this.store.on('destination', this.handleDestinationUpdate, this);
             this.store.on('points', this.handlePointsUpdate, this);
@@ -93,7 +93,7 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
         },
 
         clear: function() {
-            this.company = null;
+            this.service = null;
             this.points = [];
             if (this.ymap) {
                 this.pointsClusterer.removeAll();
@@ -126,10 +126,10 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
                 clusterer.removeAll();
                 this.ymap.setCenter(prepareCoords(destination['long'], destination['lat']));
             } else {
-                if (variant['company'] !== this.company) {
+                if (variant['service'] !== this.service) {
                     clusterer.removeAll();
                     clusterer.add(this.points.filter(function (p) {
-                        return p.properties.get('company').code === variant.company;
+                        return p.properties.get('service').code === variant.service;
                     }));
                 }
                 var objects = clusterer.getGeoObjects();
@@ -156,19 +156,19 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
             var current = this.points;
             var variant = this.store.getSelectedVariant();
             this.store.getPoints().forEach(function(point) {
-                var company = point['company'], code = point['code'];
+                var service = point['service'], code = point['code'];
                 var exists = current.some(function(p) {
-                    return (p.properties.get('company').code === company && p.properties.get('point').code === code);
+                    return (p.properties.get('service').code === service && p.properties.get('point').code === code);
                 });
                 if (!exists) {
-                    var companyInfo = _this.store.getCompany(company);
+                    var serviceInfo = _this.store.getService(service);
                     var title = pointTypes[point['type']] + ': ' + point['address'];
                     var placemark = new ymaps.Placemark(
                         prepareCoords(point['long'], point['lat']),
                         {
                             hintContent: title,
                             clusterCaption: title,
-                            company: companyInfo,
+                            service: serviceInfo,
                             point: point,
                             hasBalloon: true
                         }, {
@@ -178,7 +178,7 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
                         }
                     );
                     _this.points.push(placemark);
-                    if (variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && company == variant.company) {
+                    if (variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && service == variant.service) {
                         _this.pointsClusterer.add(placemark);
                     }
                 }

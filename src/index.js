@@ -69,7 +69,6 @@ DinvioWidget.prototype.setParcelData = function(packages, totalCost) {
     if (!_.isEqual(this.packages, packages) || totalCost !== this.totalCost) {
         this.totalCost = totalCost;
         this.packages = _.clone(packages);
-        this.calc();
     }
 };
 
@@ -80,7 +79,6 @@ DinvioWidget.prototype.setParcelData = function(packages, totalCost) {
 DinvioWidget.prototype.setDestination = function(destination) {
     if (destination !== this.destination) {
         this.destination = destination;
-        this.calc();
     }
 };
 
@@ -101,8 +99,8 @@ DinvioWidget.prototype.getRequestId = function() {
     return this.store.getRequestId();
 };
 
-DinvioWidget.prototype.getCompanyInfo = function(company) {
-    return this.store.getCompany(company);
+DinvioWidget.prototype.getServiceInfo = function(service) {
+    return this.store.getService(service);
 };
 
 _.extend(DinvioWidget.prototype, EventEmitter.prototype);

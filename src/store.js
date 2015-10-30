@@ -27,6 +27,7 @@ function Store(settings) {
             packages: [],
             totalCost: 0
         },
+        error: null,
         currentDeliveryType: undefined
     };
     clearCalculateState(this);
@@ -42,7 +43,7 @@ function Store(settings) {
                     packages: action.packages,
                     totalCost: action.totalCost
                 });
-                if (hasChanges) {
+                if (_this.error() || hasChanges) {
                     calculate(_this);
                 }
                 break;
@@ -80,17 +81,28 @@ Store.prototype.getSelectedDeliveryType = function() {
     return this._state.currentDeliveryType;
 };
 
-Store.prototype.getCompany = function(company) {
-    return this._state.companies[company];
+Store.prototype.hasDeliveryType = function(deliveryType) {
+    return this._state.variants.some(function(v) { return v['delivery_type'] === deliveryType; });
+};
+
+Store.prototype.getDeliveryTypes = function() {
+    return [
+        deliveryTypes.COURIER,
+        deliveryTypes.PICKPOINT
+    ].filter(function(t) { return this.hasDeliveryType(t); }, this);
+};
+
+Store.prototype.getService = function(service) {
+    return this._state.services[service];
 };
 
 Store.prototype.getVariants = function() {
     return this._state.variants;
 };
 
-Store.prototype.getPoints = function(company) {
-    if (company) {
-        return this._state.points.filter(function(p) { return p['company'] === company; });
+Store.prototype.getPoints = function(service) {
+    if (service) {
+        return this._state.points.filter(function(p) { return p['service'] === service; });
     }
     return this._state.points;
 };
@@ -101,7 +113,11 @@ Store.prototype.getSelectedVariant = function(copy) {
 };
 
 Store.prototype.isVariantEquals = function(v1, v2) {
-    return (v1 && v2 && v1['company'] === v2['company'] && v1['delivery_type'] === v2['delivery_type'] && v1['name'] === v2['name']);
+    return (v1 && v2 && v1['service'] === v2['service'] && v1['delivery_type'] === v2['delivery_type'] && v1['name'] === v2['name']);
+};
+
+Store.prototype.error = function() {
+    return this._state.error;
 };
 
 function assignRequestData(store, requestData) {
@@ -113,11 +129,12 @@ function assignRequestData(store, requestData) {
 }
 
 function clearCalculateState(store) {
-    store._state.companies = {};
+    store._state.services = {};
     store._state.variants = [];
     store._state.points = [];
     store._state.destination = {};
     store._state.selected = null;
+    store._state.error = null;
 }
 
 function calculate(store) {
@@ -145,16 +162,27 @@ function calculate(store) {
             }
             if (updates.variants) {
                 store.emit('variants');
-                if (!store._state.currentDeliveryType) {
-                    selectDeliveryType(store, 'courier');
+                if (!store._state.currentDeliveryType && store.hasDeliveryType(deliveryTypes.COURIER)) {
+                    selectDeliveryType(store, deliveryTypes.COURIER);
                 }
             }
             if (updates.points) {
                 store.emit('points');
             }
         }
+        if (result.isReady) {
+            if (!store._state.variants.length) {
+                error({
+                    code: 31,
+                    message: 'No available delivery variants'
+                });
+            } else if (!store.getSelectedDeliveryType()) {
+                selectDeliveryType(store, store.getDeliveryTypes()[0]);
+            }
+        }
     }
     function error(e) {
+        store._state.error = e;
         store.emit('calculate-error', e);
     }
     calcResult.then(handler, error, handler);
@@ -163,12 +191,11 @@ function calculate(store) {
 function parseResult(store, result) {
     var state = store._state;
     var updates = {};
-    var ccResult = result['courier_companies'];
-    var companies = ccResult['companies'];
-    if (companies) {
-        _.forOwn(companies, function(val, key) {
-            if (!state.companies[key]) {
-                state.companies[key] = val;
+    var services = result['services'];
+    if (services) {
+        _.forOwn(services, function(val, key) {
+            if (!state.services[key]) {
+                state.services[key] = val;
             }
         });
     }
@@ -176,11 +203,11 @@ function parseResult(store, result) {
         state.destination = result.destination;
         updates.destination = true;
     }
-    var variants = ccResult['variants'];
+    var variants = result['variants'];
     if (variants) {
         updates.variants = variants.map(insertVariant.bind(store)).some(isTrue);
     }
-    var points = ccResult['points'];
+    var points = result['points'];
     if (points) {
         updates.points = points.map(insertPoint.bind(store)).some(isTrue);
     }
@@ -191,7 +218,7 @@ function selectVariant(store, variant) {
     if (!store.isVariantEquals(store._state.selected, variant)) {
         var point;
         if (variant['delivery_type'] === deliveryTypes.PICKPOINT) {
-            var points = store.getPoints(variant['company']);
+            var points = store.getPoints(variant['services']);
             if (!points || !points.length) {
                 return;
             }
@@ -210,7 +237,7 @@ function clearVariant(store) {
 
 function selectPoint(store, point) {
     var variant = store._state.selected;
-    if (variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && variant['company'] === point['company']
+    if (variant && variant['delivery_type'] === deliveryTypes.PICKPOINT && variant['service'] === point['service']
         && (!variant['point'] || variant['point']['code'] !== point['code'])) {
         variant.point = point;
         store.emit('variant-select', variant);
@@ -270,7 +297,7 @@ function insertVariant(variant) {
 function insertPoint(point) {
     var points = this._state.points;
     var exists = points.some(function(p) {
-        return (p['company'] === point['company'] && p['code'] === point['code']);
+        return (p['service'] === point['service'] && p['code'] === point['code']);
     });
     if (!exists) {
         points.push(point);

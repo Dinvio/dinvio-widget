@@ -28,6 +28,7 @@ var DinvioWidget = component.factory('DinvioWidget',
             this.pointsMap = this.bindComponentToElement(PointsMap, 'pointsMap');
             this.variants = [];
             this.store.on('calculate-start', this.handleCalculateStart, this);
+            this.store.on('calculate-error', this.handleCalculateError, this);
             this.store.on('variants', this.handleVariantsUpdate, this);
             this.store.on('deliveryType-select', this.handleDeliveryTypeSelect, this);
             this.store.on('variant-select', this.handleVariantSelect, this);
@@ -36,6 +37,7 @@ var DinvioWidget = component.factory('DinvioWidget',
             this.store.off('variant-select', this.handleVariantSelect, this);
             this.store.off('deliveryType-select', this.handleDeliveryTypeSelect, this);
             this.store.off('variants', this.handleVariantsUpdate, this);
+            this.store.off('calculate-error', this.handleCalculateError, this);
             this.store.off('calculate-start', this.handleCalculateStart, this);
             this.destroyVariants();
             this.pointsMap.destroy();
@@ -51,12 +53,18 @@ var DinvioWidget = component.factory('DinvioWidget',
 
         handleCalculateStart: function() {
             this.show();
+            this.removeModifierFromElement(this.getElement('error'), 'error', 'show');
             this.destroyVariants();
+            this.destination.hide();
+            this.typeSelector.clear();
             this.pointsMap.clear();
         },
 
+        handleCalculateError: function() {
+            this.addModifierToElement(this.getElement('error'), 'error', 'show');
+        },
+
         handleVariantsUpdate: function() {
-            var _this = this;
             var variants = this.store.getVariants();
             if (!variants) {
                 return;
@@ -92,3 +100,4 @@ var DinvioWidget = component.factory('DinvioWidget',
     require('../templates/Widget.html')
 );
 module.exports = DinvioWidget;
+

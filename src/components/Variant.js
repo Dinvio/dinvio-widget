@@ -31,14 +31,14 @@ var DinvioWidgetVariant = component.factory('DinvioWidgetVariant',
             this.element.removeEventListener('click', this._handleClick)
         },
         renderState: function() {
-            var company = this.store.getCompany(this.state['company']);
-            var name = company['name'];
+            var service = this.store.getService(this.state['service']);
+            var name = service['name'];
             if (this.state['desc']) {
-                // remove company name from description (ex. for DPD)
+                // remove service name from description (ex. for DPD)
                 name += ', ' + this.state['desc'].replace(new RegExp('^' + name + '\s*'), '');
             }
             style.set(this.getElement('logoImg'), {
-                'background-image': 'url(' + company['logo'] + ')'
+                'background-image': 'url(' + service['logo'] + ')'
             });
             this.setElementsHTML({
                 name: name,

@@ -1,7 +1,7 @@
 <div class="DinvioWidgetMapPointBalloon">
-    <div class="DinvioWidgetMapPointBalloon-logo" style="background-image: url({{ properties.company.logo }})"></div>
+    <div class="DinvioWidgetMapPointBalloon-logo" style="background-image: url({{ properties.service.logo }})"></div>
     <div class="DinvioWidgetMapPointBalloon-type">
-        {% if properties.point.type == 'postomat' %}Постамат{% else %}Пункт выдачи заказов{% endif %}
+        {% if properties.point.type == 'postamat' %}Постамат{% else %}Пункт выдачи заказов{% endif %}
     </div>
     <div class="DinvioWidgetMapPointBalloon-address">{{ properties.point.address }}</div>
     {% if properties.point.metro %}
