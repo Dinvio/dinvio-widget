@@ -91,6 +91,13 @@ DinvioWidget.prototype.calc = function() {
     }
 };
 
+/**
+ * Start calculation for predefined order
+ */
+DinvioWidget.prototype.calcOrderId = function(orderId) {
+    actions.calculateOrderId(this.store, orderId);
+};
+
 DinvioWidget.prototype.getSelectedVariant = function() {
     return this.store.getSelectedVariant(true);
 };

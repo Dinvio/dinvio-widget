@@ -14,6 +14,14 @@ module.exports = {
         });
     },
 
+    calculateOrderId: function(store, orderId) {
+        dispatcher.dispatch({
+            type: actionTypes.CALCULATE_ORDER_ID,
+            store: store,
+            orderId: orderId
+        });
+    },
+
     selectDeliveryType: function(store, type) {
         dispatcher.dispatch({
             type: actionTypes.SELECT_DELIVERY_TYPE,

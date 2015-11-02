@@ -13,11 +13,12 @@
     </p>
     <p>
         <button onClick="demoWidget.setDestination(document.getElementById('addressInput').value); demoWidget.calc()">Выбрать способ доставки</button>
+        <button onClick="demoWidget.calcOrderId('999-000-000-001');">999-000-000-001</button>
     </p>
     <div id="widgetPlace" style="width: 600px"></div>
     <script>
         var demoWidget = new DinvioWidget('widgetPlace', {
-//            apiUrl: 'http://localhost:8000/api/',
+            apiUrl: 'http://localhost:8000/api/',
             publicKey: '1d33aa4b-8cf3-4d3d-b40e-16006f4c2433'
         });
         demoWidget.on('select', function() {

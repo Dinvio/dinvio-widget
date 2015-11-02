@@ -47,6 +47,10 @@ function Store(settings) {
                     calculate(_this);
                 }
                 break;
+            case actionTypes.CALCULATE_ORDER_ID:
+                assignOrderId(_this, action.orderId);
+                calculate(_this);
+                break;
             case actionTypes.SELECT_VARIANT:
                 selectVariant(_this, action.variant);
                 break;
@@ -128,6 +132,13 @@ function assignRequestData(store, requestData) {
     return false;
 }
 
+function assignOrderId(store, orderId) {
+    store._state.requestData = {
+        orderId: orderId
+    };
+    return true;
+}
+
 function clearCalculateState(store) {
     store._state.services = {};
     store._state.variants = [];
@@ -143,7 +154,11 @@ function calculate(store) {
     clearCalculateState(store);
     store.emit('calculate-start');
     try {
-        calcResult = store.calculator.calc(requestData.destination, requestData.packages, requestData.totalCost);
+        if (requestData.orderId) {
+            calcResult = store.calculator.calcOrderId(requestData.orderId);
+        } else {
+            calcResult = store.calculator.calc(requestData.destination, requestData.packages, requestData.totalCost);
+        }
     } catch(e) {
         if (e instanceof Calculator.DestinationError) {
             store.emit('destination-error');
