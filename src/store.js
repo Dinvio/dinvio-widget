@@ -233,7 +233,7 @@ function selectVariant(store, variant) {
     if (!store.isVariantEquals(store._state.selected, variant)) {
         var point;
         if (variant['delivery_type'] === deliveryTypes.PICKPOINT) {
-            var points = store.getPoints(variant['services']);
+            var points = store.getPoints(variant['service']);
             if (!points || !points.length) {
                 return;
             }
