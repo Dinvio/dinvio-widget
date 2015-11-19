@@ -57,6 +57,7 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
         },
 
         createMap: function(center) {
+            var _this = this;
             var ymaps = global['ymaps'];
             var store = this.store;
             this.ymap = new ymaps.Map(this.element, {
@@ -79,6 +80,7 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
                     var el = e.originalEvent.domEvent.originalEvent.target;
                     var data = e.originalEvent.target.getData();
                     if (el.getAttribute('data-action') === 'select') {
+                        _this.closeBalloon();
                         actions.selectPoint(store, data.properties.get('point'));
                     }
                 }
@@ -98,6 +100,18 @@ var DinvioWidgetPointsMap = component.factory('DinvioWidgetPointsMap',
             if (this.ymap) {
                 this.pointsClusterer.removeAll();
             }
+        },
+
+        closeBalloon: function() {
+            var clustererBalloon = this.pointsClusterer.balloon;
+            if (clustererBalloon) {
+                clustererBalloon.close();
+            }
+            this.pointsClusterer.getGeoObjects().forEach(function(object) {
+                if (object.balloon) {
+                    object.balloon.close();
+                }
+            });
         },
 
         handleDestinationUpdate: function(destination) {

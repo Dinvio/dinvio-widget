@@ -2,5 +2,5 @@
 
 module.exports = {
     'pickup': 'ПВЗ',
-    'postomat': 'Постамат'
+    'postamat': 'Постамат'
 };

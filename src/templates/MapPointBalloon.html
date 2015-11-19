@@ -14,9 +14,9 @@
     {% endif %}
     <div class="DinvioWidgetMapPointBalloon-props">
         <div class="DinvioWidgetMapPointBalloon-prop">Оплата наличными</div>
-        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.can_cod_cash %}да{% else %}нет{% endif %}</div>
+        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.cod_cash %}да{% else %}нет{% endif %}</div>
         <div class="DinvioWidgetMapPointBalloon-prop">Оплата банковской картой</div>
-        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.can_cod_card %}да{% else %}нет{% endif %}</div>
+        <div class="DinvioWidgetMapPointBalloon-value">{% if properties.point.cod_card %}да{% else %}нет{% endif %}</div>
         {% if properties.point.working_time %}
             <div class="DinvioWidgetMapPointBalloon-prop">Часы работы</div>
             <div class="DinvioWidgetMapPointBalloon-value">{{ properties.point.working_time }}</div>
