@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-    <script src="./dinvio-widget.15.7.1.min.js"></script>
+    <script src="./dinvio-widget.15.11.2.min.js"></script>
 </head>
 <body>
 <p>
@@ -11,7 +11,7 @@
     </label>
 </p>
 <p>
-    <button onClick="demoWidget.setDestination(document.getElementById('addressInput').value)">Выбрать способ доставки</button>
+    <button onClick="demoWidget.setDestination(document.getElementById('addressInput').value); demoWidget.calc();">Выбрать способ доставки</button>
 </p>
 <div id="widgetPlace" style="width: 600px"></div>
 <script>
